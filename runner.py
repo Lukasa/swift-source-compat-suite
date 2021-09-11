@@ -19,6 +19,7 @@ import sys
 
 import common
 import project_future
+import clang_installer
 
 
 def parse_args():
@@ -47,6 +48,11 @@ def main():
     time_reporter = None
     if args.report_time_path:
         time_reporter = project_future.TimeReporter(args.report_time_path)
+
+    clangc_installer = None
+    if args.clangc:
+        clangc_installer = clang_installer.ClangInstaller(args.clangc)
+        clangc_installer.install()
 
     index = json.loads(open(args.projects).read())
     result = project_future.ProjectListBuilder(
@@ -81,6 +87,10 @@ def main():
         index
     ).build()
     common.debug_print(str(result))
+
+    if clangc_installer:
+        clangc_installer.clear()
+
     return 0 if result.result in [project_future.ResultEnum.PASS,
                                   project_future.ResultEnum.XFAIL] else 1
 

@@ -583,6 +583,9 @@ def add_arguments(parser):
     parser.add_argument("--report-time-path",
                         help='export time for building each xcode build target to the specified json file',
                         type=os.path.abspath)
+    parser.add_argument("--clangc",
+                        help='clang executable to temporarily be swapped with the clang in the toolchain',
+                        type=os.path.abspath)
 
 def add_minimal_arguments(parser):
     """Add common arguments to parser."""
